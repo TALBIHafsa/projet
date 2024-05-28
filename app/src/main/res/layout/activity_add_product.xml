@@ -43,7 +43,7 @@
         android:layout_width="231dp"
         android:layout_height="36dp"
         android:fontFamily="@font/abeezee"
-        android:text="Product Ingridients"
+        android:text="Product Ingredients"
         android:textSize="20sp"
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -57,44 +57,41 @@
         android:id="@+id/addPicture"
         android:layout_width="263dp"
         android:layout_height="43dp"
-        android:background="@drawable/favourite_case"
-        android:fontFamily="@font/abeezee"
-        android:text="Take picture"
+        android:background="@drawable/button_background"
+        android:text="Take Product Picture"
         android:textColor="@color/black"
         android:textSize="13sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.56"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/addIngridients"
+        android:id="@+id/addIngredients"
         android:layout_width="263dp"
         android:layout_height="43dp"
-        android:background="@drawable/favourite_case"
-        android:fontFamily="@font/abeezee"
-        android:text="Take picture"
+        android:layout_marginTop="92dp"
+        android:background="@drawable/button_background"
+        android:text="Take Ingredients Picture"
         android:textColor="@color/black"
-
-
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.56"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/addPicture"
         app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
-        android:layout_width="411dp"
-        android:layout_height="245dp"
+        android:id="@+id/linearLayout2"
+        android:layout_width="410dp"
+        android:layout_height="195dp"
+        android:layout_marginBottom="104dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addIngridients">
+        app:layout_constraintTop_toBottomOf="@+id/addIngredients">
 
     </LinearLayout>
 
