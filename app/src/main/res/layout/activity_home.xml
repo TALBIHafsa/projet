@@ -27,6 +27,7 @@
                 android:id="@+id/imageView12"
                 android:layout_width="85dp"
                 android:layout_height="85dp"
+                android:onClick="goToProfil"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.912"
@@ -313,6 +314,7 @@
                 android:id="@+id/imageView31"
                 android:layout_width="38dp"
                 android:layout_height="40dp"
+                android:onClick="goToSearch"
                 app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.802"
@@ -333,39 +335,39 @@
                 app:layout_constraintVertical_bias="1.0">
 
                 <LinearLayout
+                    android:id="@+id/productsContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp">
 
-                    <ImageView
-                        android:id="@+id/imageView32"
-                        android:layout_width="170dp"
-                        android:layout_height="170dp"
-                        android:layout_weight="1"
-                        android:contentDescription="imageProduct"
-                        android:onClick="goToProduct"
-                        app:srcCompat="@drawable/haribo" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/haribo"-->
+<!--                        android:layout_width="150dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        app:srcCompat="@drawable/haribo" />-->
 
-                    <ImageView
-                        android:id="@+id/imageView28"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/hell" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/hell"-->
+<!--                        android:layout_width="150dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        app:srcCompat="@drawable/hell" />-->
+<!--                    <ImageView-->
+<!--                        android:id="@+id/cola"-->
+<!--                        android:layout_width="150dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        app:srcCompat="@drawable/coca" />-->
+<!--                    <ImageView-->
+<!--                        android:id="@+id/pressup"-->
+<!--                        android:layout_width="150dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        app:srcCompat="@drawable/pressup" />-->
 
-                    <ImageView
-                        android:id="@+id/imageView29"
-                        android:layout_width="170dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/skittles" />
-
-                    <ImageView
-                        android:id="@+id/imageView27"
-                        android:layout_width="170dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/mnm" />
                 </LinearLayout>
             </HorizontalScrollView>
 

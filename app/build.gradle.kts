@@ -47,7 +47,12 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.picasso)
     implementation(libs.zxing.android.embedded)
+    implementation(libs.firebase.storage)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation("com.github.dhaval2404:imagepicker:2.1")
+
+
 }

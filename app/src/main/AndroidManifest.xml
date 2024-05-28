@@ -2,11 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-    <uses-permission android:name="android.permission.CAMERA"/>
 
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HalalScan"
         tools:targetApi="31">
+        <activity
+            android:name=".App.ProfilActivity"
+            android:exported="false" />
         <activity
             android:name=".App.scan"
             android:exported="false" />
@@ -41,9 +47,7 @@
             android:exported="false" />
         <activity
             android:name=".Opening.signUp"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".signUp" -->
-        <!-- android:exported="false" /> -->
+            android:exported="false" />
         <activity
             android:name=".Opening.page1"
             android:exported="false" />
@@ -62,10 +66,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".App.CaptureAct"
+        <activity
+            android:name=".App.CaptureAct"
             android:screenOrientation="portrait"
             android:stateNotNeeded="true"
-            android:theme="@style/zxing_CaptureTheme"/>
+            android:theme="@style/zxing_CaptureTheme" />
 
         <meta-data
             android:name="preloaded_fonts"

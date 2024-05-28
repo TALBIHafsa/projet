@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="8dp"
+    app:cardUseCompatPadding="true"
+    android:layout_marginHorizontal="8dp"
+    app:cardElevation="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardView2"
+        android:layout_width="382dp"
+        android:layout_height="199dp"
+        android:padding="8dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="143dp"
+            android:layout_height="148dp"
+            app:cardCornerRadius="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/listImage"
+                android:layout_width="104dp"
+                android:layout_height="107dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/product_icon"
+                app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
+        </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/listHeart"
+            android:layout_width="47dp"
+            android:layout_height="43dp"
+            android:layout_above="@+id/listDesc"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_toEndOf="@+id/listName"
+            android:backgroundTint="@color/white"
+            android:clickable="true"
+            app:layout_constraintBottom_toTopOf="@+id/listDesc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.352"
+            app:layout_constraintStart_toEndOf="@+id/listName"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.342"
+            app:srcCompat="@drawable/heart_icon"
+            app:tint="@color/green"
+            android:onClick="onHeartClick"/>
+
+        <TextView
+            android:id="@+id/listName"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/cardView"
+            android:text="Product1"
+            android:textColor="@color/grey"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/listDesc"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.14"
+            app:layout_constraintStart_toEndOf="@+id/cardView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.475" />
+
+        <TextView
+            android:id="@+id/listDesc"
+            android:layout_width="179dp"
+            android:layout_height="77dp"
+            android:layout_below="@+id/listName"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="18dp"
+            android:layout_marginBottom="16dp"
+            android:layout_toEndOf="@+id/cardView"
+            android:text="This product is halal.."
+            android:textColor="@color/grey"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/cardView" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -2,102 +2,72 @@ package com.example.halalscan.App;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.halalscan.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class products extends AppCompatActivity {
 
+    DatabaseReference database;
+    TextView productNameTextView, ingredientsTextView, haramIngredientsTextView, countryNameTextView;
+    ImageView productImageView, heart, statutImageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
-//        setContentView(R.layout.activity_product);
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-//            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-//            return insets;
-//        });
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products);
 
-        // Retrieve product details from intent
-        Intent intent = getIntent();
-        String productId = intent.getStringExtra("productId");
-        String productName = intent.getStringExtra("productName");
+        initializeViews();
 
-        String productImage = intent.getStringExtra("productImage");
+        String productId = getIntent().getStringExtra("productId");
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference productRef = rootRef.child("products").child(productId);
 
-        // Set product name
-        TextView productNameTextView = findViewById(R.id.name);
-        productNameTextView.setText(productName);
-
-        // Set product image
-        ImageView image = findViewById(R.id.imageView30);
-        Picasso.get().load(productImage).into(image);
-
-
-
-
-
-
-
-
-
-
-        // Retrieve the TextView by its ID
-        TextView ingredientsTextView = findViewById(R.id.ingredients);
-
-        // Sample list of ingredients
-        String[] ingredients = {"GLUCOSE SYRUP (FROM WHEAT OR CORN)", "CORN SUGAR", "GELATIN", "DEXTROSE (FROM WHEAT OR CORN)", "CONTAINS LESS THAN 2% OF: CITRIC ACID", "ARTIFIC LAND NATURAL FLAVORS", "SUNFLOWER OIL", "WHITE BEESWAX", "YELLOW BEESWAX", "COLORED WITH FRUIT AND VEGETABLE", "JUICE COLORED WITH SPIRULINA EXTRACT", "MAY CONTAIN: WHEAT, TRACES OF MILK"};
-
-        // Create a StringBuilder to build the text containing all ingredients
-        StringBuilder ingredientsText = new StringBuilder();
-
-        // Append each ingredient to the StringBuilder
-        for (int i = 0; i < ingredients.length; i++) {
-            if (i == ingredients.length - 1) {
-                ingredientsText.append(ingredients[i]).append(".");
-            } else {
-                ingredientsText.append(ingredients[i]).append(",").append("\n"); // Append each ingredient and a newline character
+        productRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("Firebase Data", "Data snapshot: " + dataSnapshot.toString()); // Log the complete snapshot
+                if (dataSnapshot.exists()) {
+                    product product = dataSnapshot.getValue(product.class);
+                    if (product != null && product.getCountry() != null) {
+                        updateProductDetails(product);
+                        fetchCountryName(rootRef, product.getCountry());
+                    } else {
+                        Log.e("Product Fetch", "Country code missing or product is null");
+                        countryNameTextView.setText("Country code missing");
+                    }
+                } else {
+                    Toast.makeText(products.this, "Product not found", Toast.LENGTH_SHORT).show();
+                }
             }
-        }
 
-        // Set the text of the TextView to the ingredients list
-        ingredientsTextView.setText(ingredientsText.toString());
-
-        // Retrieve the TextView by its ID
-        TextView haramingredientsTextView = findViewById(R.id.haramIngredients);
-
-        // Sample list of ingredients
-        String[] haramingredients = {"GELATIN"};
-
-        // Create a StringBuilder to build the text containing all ingredients
-        StringBuilder haramingredientsText = new StringBuilder();
-
-        // Append each ingredient to the StringBuilder
-        for (int i = 0; i < haramingredients.length; i++) {
-            if (i == haramingredients.length - 1) {
-                haramingredientsText.append(haramingredients[i]).append(".");
-            } else {
-                haramingredientsText.append(haramingredients[i]).append(",").append("\n"); // Append each ingredient and a newline character
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(products.this, "Failed to load product details", Toast.LENGTH_SHORT).show();
             }
-        }
+        });
+    }
 
-        // Set the text of the TextView to the ingredients list
-        haramingredientsTextView.setText(haramingredientsText.toString());
-
-
-
-        ImageView heart = findViewById(R.id.heart);
+    private void initializeViews() {
+        productNameTextView = findViewById(R.id.name);
+        ingredientsTextView = findViewById(R.id.ingredients);
+        haramIngredientsTextView = findViewById(R.id.haramIngredients);
+        productImageView = findViewById(R.id.imageView30);
+        statutImageView = findViewById(R.id.statut);
+        countryNameTextView = findViewById(R.id.country);
+        heart = findViewById(R.id.heart);
 
         heart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,15 +75,62 @@ public class products extends AppCompatActivity {
                 heart.setSelected(!heart.isSelected());
             }
         });
-
-
-
-
-
-    }
-    public void goToHome(View v){
-        Intent i = new Intent(this, home.class);
-        startActivity(i);
     }
 
+    private void fetchCountryName(DatabaseReference rootRef, String countryCode) {
+        if (countryCode != null && !countryCode.isEmpty()) {
+            DatabaseReference countryRef = rootRef.child("countries").child(countryCode);
+            countryRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot countrySnapshot) {
+                    if (countrySnapshot.exists()) {
+                        String countryName = countrySnapshot.getValue(String.class);
+                        countryNameTextView.setText(countryName);
+                    } else {
+                        countryNameTextView.setText("Country not found");
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(products.this, "Failed to load country details", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            countryNameTextView.setText("No country code available");
+        }
+    }
+
+    private void updateProductDetails(product product) {
+        productNameTextView.setText(product.getName());
+        Picasso.get().load(product.getImage()).into(productImageView);
+
+        if (product.getIngredients() != null) {
+            ingredientsTextView.setText(String.join(", ", product.getIngredients()));
+        } else {
+            ingredientsTextView.setText("Ingredients not available");
+        }
+
+        if (product.getHaramIngredients() != null) {
+            haramIngredientsTextView.setText(String.join(", ", product.getHaramIngredients()));
+        } else {
+            haramIngredientsTextView.setText("All the ingredients are halal");
+        }
+
+        updateStatutImageView(product.getStatut());
+    }
+
+    private void updateStatutImageView(String statut) {
+        if ("haram".equalsIgnoreCase(statut)) {
+            statutImageView.setImageResource(R.drawable.haram);
+        } else if ("halal".equalsIgnoreCase(statut)) {
+            statutImageView.setImageResource(R.drawable.halal);
+        } else {
+            statutImageView.setImageResource(R.drawable.mashbouh);
+        }
+    }
+
+    public void goToHome(View v) {
+        finish();
+    }
 }

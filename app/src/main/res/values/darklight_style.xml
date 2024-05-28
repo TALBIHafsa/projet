@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MyAlertDialogStyle" parent="@android:style/Theme.Material.Light.Dialog.Alert">
+        <!-- Couleur de fond du dialog -->
+        <item name="android:windowBackground">@android:color/white</item>
+        <!-- Couleur du texte des boutons -->
+        <item name="android:textColorPrimary">@color/green</item>
+    </style>
+</resources>

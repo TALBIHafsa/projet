@@ -14,6 +14,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.halalscan.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,8 +30,12 @@ public class signUp extends AppCompatActivity {
     EditText name, email, password, confirmPassword;
     TextView LoginRedirectText;
     Button SignUp;
-    FirebaseDatabase DB;
-    DatabaseReference usersRef;
+    private FirebaseAuth mAuth;
+    private DatabaseReference usersRef;
+
+    public void goToLogin(View v) {
+        startActivity(new Intent(signUp.this, login.class));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,46 +62,14 @@ public class signUp extends AppCompatActivity {
 
         SignUp = findViewById(R.id.SignUp);
 
-        DB = FirebaseDatabase.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase DB = FirebaseDatabase.getInstance();
         usersRef = DB.getReference("users");
 
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String u_name = name.getText().toString();
-                final String u_email = email.getText().toString();
-                final String u_password = password.getText().toString();
-                final String u_confirmPassword = confirmPassword.getText().toString();
-
-                if (!isValidEmail(u_email)) {
-                    Toast.makeText(signUp.this, "Invalid email address", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (!u_password.equals(u_confirmPassword)) {
-                    Toast.makeText(signUp.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                usersRef.orderByChild("email").equalTo(u_email).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            Toast.makeText(signUp.this, "There's already an account with this email , login or try a different one", Toast.LENGTH_SHORT).show();
-                        } else {
-                            users user = new users(u_email, u_name, u_password);
-                            usersRef.child(u_name).setValue(user);
-
-                            Toast.makeText(signUp.this, "You have signed up correctly", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(signUp.this, login.class));
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(signUp.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                signUpUser();
             }
         });
 
@@ -104,8 +82,55 @@ public class signUp extends AppCompatActivity {
         });
     }
 
-    public void goToLogin(View v) {
-        startActivity(new Intent(signUp.this, login.class));
+    private void signUpUser() {
+        final String u_name = name.getText().toString();
+        final String u_email = email.getText().toString();
+        final String u_password = password.getText().toString();
+        final String u_confirmPassword = confirmPassword.getText().toString();
+
+        if (!isValidEmail(u_email)) {
+            Toast.makeText(signUp.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!u_password.equals(u_confirmPassword)) {
+            Toast.makeText(signUp.this, "Passwords don't match", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        mAuth.createUserWithEmailAndPassword(u_email, u_password)
+                .addOnCompleteListener(signUp.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            String uid = user.getUid();
+                            if (user != null) {
+                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(u_name)
+                                        .build();
+
+                                user.updateProfile(profileUpdates)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    // Create user object and store in Firebase Realtime Database
+                                                    users user = new users(u_email, u_name, u_password);
+                                                    usersRef.child(uid).setValue(user);
+                                                    Toast.makeText(signUp.this, "You have signed up correctly", Toast.LENGTH_SHORT).show();
+                                                    startActivity(new Intent(signUp.this, login.class));
+                                                } else {
+                                                    Toast.makeText(signUp.this, "Failed to add username", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                            }
+                        } else {
+                            Toast.makeText(signUp.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private boolean isValidEmail(CharSequence target) {

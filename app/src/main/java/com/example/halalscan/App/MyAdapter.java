@@ -5,149 +5,110 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.halalscan.R;
-import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    Context context;
-    List<product> allDataList;
-    private List<product> completeDataList;
-    private ValueFilter valueFilter;
-    private OnItemClickListener listener;
+
+public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
+    private Context context;
+    private List<DataClass> dataList;
+    private OnHeartClickListener heartClickListener;
 
 
-    public MyAdapter(Context context, ArrayList<product> list, OnItemClickListener onItemClickListener) {
-        this.context = context;
-        this.allDataList = list;
-        this.completeDataList = list;
-        this.listener = listener;
+    public void setOnHeartClickListener(OnHeartClickListener listener) {
+        this.heartClickListener = listener;
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(product item);
+    public void removeItem(int position) {
+        dataList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, dataList.size());
     }
 
-
-    public void updateList(List<product> newList) {
-        allDataList.clear();
-        if(newList != null){
-            allDataList.addAll(newList);
-        }
+    public void setSearchList(List<DataClass> dataSearchList){
+        this.dataList=dataSearchList;
         notifyDataSetChanged();
+
+    }
+    public MyAdapter(Context context, List<DataClass> dataList ){
+        this.context=context;
+        this.dataList=dataList;
+
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item,parent,false);
-        return new MyViewHolder(v);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.each_item,parent,false);
+        return new MyViewHolder(view);
     }
 
     @Override
-
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        product p = allDataList.get(position);
-        holder.name.setText(p.getName());
-        holder.id.setText(p.getId());
 
-        // Set click listener for the item
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        DataClass currentItem = dataList.get(position);
+        // Bind data to views
+        holder.ListHeart.setImageResource(currentItem.getIsFavorite() ? R.drawable.heart_filled : R.drawable.heart_blank);
+
+        // Handle heart click
+        holder.ListHeart.setOnClickListener(v -> {
+            if (heartClickListener != null) {
+                heartClickListener.onHeartClick(position);
+            }
+        });
+        holder.ListImage.setImageResource(dataList.get(position).getDataImage());
+
+        holder.ListName.setText(dataList.get(position).getDataTitle());
+        holder.ListDesc.setText(dataList.get(position).getDataDesc());
+
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                // Create an intent to navigate to products activity
-                Intent intent = new Intent(context, products.class);
-                // Pass product details to the intent
-                intent.putExtra("productId", p.getId());
-                intent.putExtra("productName", p.getName());
-                intent.putExtra("productName", p.getName());
+            public void onClick(View v) {
+                Intent i=new Intent(context,product.class);
+                i.putExtra("Image",dataList.get(holder.getAdapterPosition()).getDataImage());
+                i.putExtra("Heart",dataList.get(holder.getAdapterPosition()).getIsFavorite());
+                i.putExtra("Name",dataList.get(holder.getAdapterPosition()).getDataTitle());
+                i.putExtra("Desc",dataList.get(holder.getAdapterPosition()).getDataDesc());
 
-                intent.putExtra("productImage", p.getImage());
+                context.startActivity(i);
 
 
-                // Start the activity
-                context.startActivity(intent);
             }
         });
 
-        // Load image using Picasso (add Picasso library to your project)
-        Picasso.get().load(p.getImage()).into(holder.image);
     }
-
 
     @Override
     public int getItemCount() {
-        return allDataList.size();
+        return dataList.size();
     }
+}
+class MyViewHolder extends RecyclerView.ViewHolder{
+    ImageView ListImage;
+    ImageView ListHeart;
+    TextView ListDesc;
+    TextView ListName;
+    CardView cardView;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        private OnItemClickListener listener = null;
-        TextView id, name, statut;
-        ImageView image;
+    public MyViewHolder(@NonNull View itemView) {
+        super(itemView);
+        ListImage =itemView.findViewById(R.id.listImage);
+        ListHeart =itemView.findViewById(R.id.listHeart);
+        ListDesc =itemView.findViewById(R.id.listDesc);
+        ListName =itemView.findViewById(R.id.listName);
+        cardView =itemView.findViewById(R.id.cardView);
 
-
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            id = itemView.findViewById(R.id.id);
-            name = itemView.findViewById(R.id.name);
-            image = itemView.findViewById(R.id.image);
-            this.listener = listener;
-
-            itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(allDataList.get(position));
-                    }
-                }
-            });
-        }
 
     }
 
-    public Filter getFilter() {
-        if (valueFilter == null) {
-            valueFilter = new ValueFilter();
-        }
-        return valueFilter;
-    }
-
-    private class ValueFilter extends Filter {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            FilterResults results = new FilterResults();
-            if (constraint != null && constraint.length() > 0) {
-                ArrayList<product> filterList = new ArrayList<>();
-                for (int i = 0; i < completeDataList.size(); i++) {
-                    if ((completeDataList.get(i).getName().toUpperCase()).contains(constraint.toString().toUpperCase())) {
-                        filterList.add(completeDataList.get(i));
-                    }
-                }
-                results.count = filterList.size();
-                results.values = filterList;
-            } else {
-                results.count = completeDataList.size();
-                results.values = completeDataList;
-            }
-            return results;
-
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            allDataList = (ArrayList<product>) results.values;
-            notifyDataSetChanged();
-        }
-    }
 }

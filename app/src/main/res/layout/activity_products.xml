@@ -101,18 +101,6 @@
                 <!--                    app:layout_constraintVertical_bias="0.318" />-->
 
                 <ImageView
-                    android:id="@+id/flag"
-                    android:layout_width="43dp"
-                    android:layout_height="41dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/imageView17"
-                    app:layout_constraintEnd_toEndOf="@+id/imageView17"
-                    app:layout_constraintHorizontal_bias="0.543"
-                    app:layout_constraintStart_toEndOf="@+id/heart"
-                    app:layout_constraintTop_toBottomOf="@+id/statut"
-                    app:layout_constraintVertical_bias="0.179"
-                    app:srcCompat="@drawable/flag_of_germany_svg" />
-
-                <ImageView
                     android:id="@+id/heart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -121,10 +109,10 @@
                     android:src="@drawable/heart"
                     app:layout_constraintBottom_toBottomOf="@+id/imageView17"
                     app:layout_constraintEnd_toEndOf="@+id/imageView17"
-                    app:layout_constraintHorizontal_bias="0.253"
+                    app:layout_constraintHorizontal_bias="0.497"
                     app:layout_constraintStart_toEndOf="@+id/imageView30"
                     app:layout_constraintTop_toBottomOf="@+id/statut"
-                    app:layout_constraintVertical_bias="0.166" />
+                    app:layout_constraintVertical_bias="0.19" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -142,6 +130,49 @@
                     android:text="Haribo Goldbears | 150g"
                     android:textAlignment="center"
                     android:textSize="21sp" />
+
+                <TableLayout
+                    android:id="@+id/countryTable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp">
+                    <!--                    android:background="@color/logo_green"-->
+                    <TableRow
+                        android:background="@drawable/row">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Country"
+                            android:textColor="@color/black"
+                            android:padding="10sp"
+                            android:textSize="17sp"
+                            android:layout_weight="4"
+                            android:gravity="center_horizontal"
+                            android:fontFamily="@font/abeezee"/>
+
+
+                    </TableRow>
+                    <TableRow
+                        android:id="@+id/countryRow"
+                        android:background="@drawable/edittext_background"
+                        android:layout_marginTop="5dp">
+
+                        <TextView
+                            android:id="@+id/country"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:fontFamily="@font/abeezee"
+                            android:padding="10sp"
+                            android:text="country"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+
+                    </TableRow>
+                </TableLayout>
 
                 <TableLayout
                     android:id="@+id/ingredientsTable"

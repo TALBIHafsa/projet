@@ -10,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.halalscan.App.MyAdapter;
-import com.example.halalscan.App.product;
 import com.example.halalscan.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,7 +23,7 @@ public class productList extends AppCompatActivity {
 
     RecyclerView recyclerView;
     DatabaseReference database;
-    MyAdapter myAdapter;
+    MyAdapter1 myAdapter;
     ArrayList<product> list;
     ArrayList<product> fullList; // Full dataset list
     SearchView searchView;
@@ -42,7 +40,7 @@ public class productList extends AppCompatActivity {
 
         list = new ArrayList<>();
         fullList = new ArrayList<>(); // Initialization of full dataset list
-        myAdapter = new MyAdapter(this, list, new MyAdapter.OnItemClickListener() {
+        myAdapter = new MyAdapter1(this, list, new MyAdapter1.OnItemClickListener() {
             @Override
             public void onItemClick(product item) {
                 // Handle item click here, navigate to product details activity
