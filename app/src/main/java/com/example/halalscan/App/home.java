@@ -121,7 +121,7 @@ public class home extends AppCompatActivity {
         intent.putExtra("productId", productId);
         startActivity(intent);
     }
-    private void scanCode(){
+    private void scanCode() {
         ScanOptions options = new ScanOptions();
         options.setPrompt("Volume up to flash on");
         options.setBeepEnabled(true);
@@ -129,6 +129,7 @@ public class home extends AppCompatActivity {
         options.setCaptureActivity(CaptureAct.class);
         barLauncher.launch(options);
     }
+
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
         if (result.getContents() != null) {
             String scannedCode = result.getContents();
@@ -145,7 +146,7 @@ public class home extends AppCompatActivity {
                             startActivity(intent);
                         }
                     } else {
-                        Toast.makeText(home.this, "Product not found", Toast.LENGTH_SHORT).show();
+                        showProductNotFoundDialog();
                     }
                 }
 
@@ -157,6 +158,27 @@ public class home extends AppCompatActivity {
         }
     });
 
+    private void showProductNotFoundDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(home.this);
+        builder.setTitle("Product Not Found");
+        builder.setMessage("The product you scanned is not in our database. Would you like to add it?");
+        builder.setPositiveButton("Add Product", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Redirect to Add Product Activity
+                Intent intent = new Intent(home.this, AddProductActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     public void goToFavourits(View v){
         Intent i = new Intent(this, favorits.class);
         startActivity(i);
