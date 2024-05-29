@@ -24,41 +24,42 @@ public class AddProductActivity extends AppCompatActivity {
 
 
 
-        private static final int REQUEST_IMAGE_CAPTURE = 1;
-        private Uri photoURI;
-        private String currentPhotoPath;
-        private StorageReference storageRef;
-    private String currentProductKey;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private Uri photoURI;
+    private String currentPhotoPath;
+    private StorageReference storageRef;
+    private String scannedBarcode; // This will hold the barcode passed from home activity
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_add_product);
-            storageRef = FirebaseStorage.getInstance().getReference();
 
-            currentProductKey = FirebaseDatabase.getInstance().getReference("newProducts").push().getKey();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_product);
+        storageRef = FirebaseStorage.getInstance().getReference();
 
-            findViewById(R.id.addPicture).setOnClickListener(v -> takePicture("productImage"));
-            findViewById(R.id.addIngredients).setOnClickListener(v -> takePicture("ingredientsImage"));
+        scannedBarcode = getIntent().getStringExtra("scannedBarcode");
+
+        findViewById(R.id.addPicture).setOnClickListener(v -> takePicture("productImage"));
+        findViewById(R.id.addIngredients).setOnClickListener(v -> takePicture("ingredientsImage"));
+    }
+
+    private void takePicture(String type) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            currentPhotoPath = type; // Use this to differentiate between product and ingredients images
         }
+    }
 
-        private void takePicture(String type) {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                currentPhotoPath = type; // Use this to differentiate between product and ingredients images
-            }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            uploadImageToFirebase(imageBitmap, currentPhotoPath);
         }
-
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                uploadImageToFirebase(imageBitmap, currentPhotoPath);
-            }
-        }
+    }
 
 
     private void uploadImageToFirebase(Bitmap bitmap, String type) {
@@ -66,7 +67,7 @@ public class AddProductActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
 
-        final StorageReference imageRef = storageRef.child("newProducts/" + currentProductKey + "/" + type + ".jpg");
+        final StorageReference imageRef = storageRef.child("newProducts/" + scannedBarcode + "/" + type + ".jpg");
         UploadTask uploadTask = imageRef.putBytes(data);
         uploadTask.addOnFailureListener(exception -> {
             Toast.makeText(this, "Upload failed: " + exception.getMessage(), Toast.LENGTH_LONG).show();
@@ -80,7 +81,8 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void updateDatabaseWithImageUrl(String imageUrl, String type) {
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("newProducts").child(currentProductKey);
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("newProducts").child(scannedBarcode);
+        databaseRef.child("id").setValue(scannedBarcode);
         if (type.equals("productImage")) {
             databaseRef.child("productImage").setValue(imageUrl);
         } else if (type.equals("ingredientsImage")) {

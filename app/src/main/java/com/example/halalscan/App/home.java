@@ -3,6 +3,7 @@ package com.example.halalscan.App;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -133,6 +134,7 @@ public class home extends AppCompatActivity {
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
         if (result.getContents() != null) {
             String scannedCode = result.getContents();
+            Log.d("home", "Scanned Barcode: " + scannedCode); // Confirm barcode is captured
             database.orderByChild("id").equalTo(scannedCode).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
@@ -146,7 +148,7 @@ public class home extends AppCompatActivity {
                             startActivity(intent);
                         }
                     } else {
-                        showProductNotFoundDialog();
+                        showProductNotFoundDialog(scannedCode);
                     }
                 }
 
@@ -158,15 +160,17 @@ public class home extends AppCompatActivity {
         }
     });
 
-    private void showProductNotFoundDialog() {
+    private void showProductNotFoundDialog(String scannedBarcode) {
         AlertDialog.Builder builder = new AlertDialog.Builder(home.this);
         builder.setTitle("Product Not Found");
-        builder.setMessage("The product you scanned is not in our database. Would you like to add it?");
+        builder.setMessage("The product with barcode " + scannedBarcode + " is not in our database. Would you like to add it?");
         builder.setPositiveButton("Add Product", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Redirect to Add Product Activity
                 Intent intent = new Intent(home.this, AddProductActivity.class);
+                intent.putExtra("scannedBarcode", scannedBarcode); // Ensure this is the correct variable holding the barcode
+
                 startActivity(intent);
             }
         });
