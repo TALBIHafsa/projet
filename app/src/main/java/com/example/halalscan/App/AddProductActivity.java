@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -125,42 +126,51 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
 
-    private void showTakenImages() {
 
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        private void showTakenImages() {
+            database.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
-                );
-                // Check if the dataSnapshot has the specific child "productImage"
-                if (dataSnapshot.hasChild("productImage")) {
-                    String productImageUrl = dataSnapshot.child("productImage").getValue(String.class);
-                    ImageView productImageView = new ImageView(AddProductActivity.this);
-                    productImageView.setLayoutParams(layoutParams);
 
-                    Picasso.get().load(productImageUrl).into(productImageView);
-                    productcontainer.addView(productImageView);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
+                    );
+
+                    // Check if the dataSnapshot has the specific child "productImage"
+                    if (dataSnapshot.hasChild("productImage")) {
+                        productcontainer.removeAllViews();
+                        String productImageUrl = dataSnapshot.child("productImage").getValue(String.class);
+                        ImageView productImageView = new ImageView(AddProductActivity.this);
+                        productImageView.setLayoutParams(layoutParams);
+
+                        Picasso.get().load(productImageUrl).into(productImageView);
+                        productcontainer.addView(productImageView);
+                    }
+
+                    // Check if the dataSnapshot has the specific child "ingredientsImage"
+                    if (dataSnapshot.hasChild("ingredientsImage")) {
+                        ingredientscontainer.removeAllViews();
+                        String ingredientsImageUrl = dataSnapshot.child("ingredientsImage").getValue(String.class);
+                        ImageView ingredientsImageView = new ImageView(AddProductActivity.this);
+                        ingredientsImageView.setLayoutParams(layoutParams);
+
+                        Picasso.get().load(ingredientsImageUrl).into(ingredientsImageView);
+                        ingredientscontainer.addView(ingredientsImageView);
+                    }
                 }
 
-                // Check if the dataSnapshot has the specific child "ingredientsImage"
-                if (dataSnapshot.hasChild("ingredientsImage")) {
-                    String ingredientsImageUrl = dataSnapshot.child("ingredientsImage").getValue(String.class);
-                    ImageView ingredientsImageView = new ImageView(AddProductActivity.this);
-                    ingredientsImageView.setLayoutParams(layoutParams);
-
-                    Picasso.get().load(ingredientsImageUrl).into(ingredientsImageView);
-                    ingredientscontainer.addView(ingredientsImageView);
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(AddProductActivity.this, "Failed to load images: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-            }
-
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(AddProductActivity.this, "Failed to load images: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+            });
+        }
+    public void goToHome(View v){
+        Intent i = new Intent(this, home.class);
+        startActivity(i);
+    }
+    public void goBack(View v){
+        finish();
     }
 }
