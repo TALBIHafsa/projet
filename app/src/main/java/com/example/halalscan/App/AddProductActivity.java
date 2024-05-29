@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.halalscan.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -81,8 +83,29 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void updateDatabaseWithImageUrl(String imageUrl, String type) {
+
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            return; // Exit if no user is logged in
+        }
+
+
+
+
+
+
+
+
+
+
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("newProducts").child(scannedBarcode);
         databaseRef.child("id").setValue(scannedBarcode);
+
+        databaseRef.child("userEmail").setValue(currentUser.getEmail()); // If you want to store the email
+
+
         if (type.equals("productImage")) {
             databaseRef.child("productImage").setValue(imageUrl);
         } else if (type.equals("ingredientsImage")) {
