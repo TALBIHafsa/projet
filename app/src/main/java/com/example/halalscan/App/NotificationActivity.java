@@ -43,7 +43,7 @@ public class NotificationActivity extends AppCompatActivity {
 
                         // Log and toast
                         System.out.println(token);
-                        Toast.makeText(NotificationActivity.this, token, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NotificationActivity.this , " this is your token " + token, Toast.LENGTH_SHORT).show();
                         ettoken.setText(token);
                     }
                 });

@@ -1,15 +1,73 @@
 {
   "project_info": {
     "project_number": "246671037711",
+    "firebase_url": "https://halalscan-aa280-default-rtdb.firebaseio.com",
     "project_id": "halalscan-aa280",
     "storage_bucket": "halalscan-aa280.appspot.com"
   },
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:246671037711:android:83867b1cdcf5040efc1a7a",
+        "android_client_info": {
+          "package_name": "com.example.a001"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIstV7QlgWtl0dT5hgfE510560ThRCHxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:246671037711:android:e5438fe0c238ef56fc1a7a",
         "android_client_info": {
           "package_name": "com.example.halalscan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIstV7QlgWtl0dT5hgfE510560ThRCHxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246671037711:android:c26a1f2e0e86c424fc1a7a",
+        "android_client_info": {
+          "package_name": "com.example.khkh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIstV7QlgWtl0dT5hgfE510560ThRCHxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246671037711:android:bced5a92f2b56b36fc1a7a",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
         }
       },
       "oauth_client": [],
