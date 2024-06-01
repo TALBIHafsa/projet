@@ -1,7 +1,9 @@
 package com.example.halalscan.App;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -12,6 +14,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.halalscan.Opening.MainActivity;
+import com.example.halalscan.Opening.signUp;
 import com.example.halalscan.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -47,5 +50,9 @@ public class NotificationActivity extends AppCompatActivity {
                         ettoken.setText(token);
                     }
                 });
+    }
+    public void goBack(View v){
+        Intent i = new Intent(this, home.class);
+        startActivity(i);
     }
 }

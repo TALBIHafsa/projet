@@ -188,7 +188,7 @@ public class home extends AppCompatActivity {
         startActivity(i);
     }
     public void goToNotifications(View v){
-        Intent i = new Intent(this, NotificationActivity.class);
+        Intent i = new Intent(this, notification.class);
         startActivity(i);
     }
 
