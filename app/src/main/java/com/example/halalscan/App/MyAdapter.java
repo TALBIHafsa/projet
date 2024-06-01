@@ -65,7 +65,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
         holder.ListName.setText(currentItem.getDataTitle());
         holder.ListStatut.setText(currentItem.getDataStatut());
 
-        holder.cardView.setOnClickListener(v -> {
+        holder.ListImage.setOnClickListener(v -> {
+            Intent intent = new Intent(context, products.class);
+            intent.putExtra("productId", currentItem.getDataId());
+            context.startActivity(intent);
+        });
+        holder.ListName.setOnClickListener(v -> {
             Intent intent = new Intent(context, products.class);
             intent.putExtra("productId", currentItem.getDataId());
             context.startActivity(intent);
@@ -83,7 +88,6 @@ class MyViewHolder extends RecyclerView.ViewHolder {
     ImageView ListHeart;
     TextView ListStatut;
     TextView ListName;
-    CardView cardView;
 
     public MyViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -91,7 +95,6 @@ class MyViewHolder extends RecyclerView.ViewHolder {
         ListHeart = itemView.findViewById(R.id.listHeart);
         ListStatut = itemView.findViewById(R.id.listStatut);
         ListName = itemView.findViewById(R.id.listName);
-        cardView = itemView.findViewById(R.id.cardView);
     }
 }
 
