@@ -1,5 +1,7 @@
 package com.example.halalscan.App;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,9 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.halalscan.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,10 +35,12 @@ public class products extends AppCompatActivity {
         setContentView(R.layout.activity_products);
 
         initializeViews();
+        heart = findViewById(R.id.heart);
 
         String productId = getIntent().getStringExtra("productId");
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         DatabaseReference productRef = rootRef.child("products").child(productId);
+        checkFavoriteStatus(productId,heart);
 
         productRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -58,7 +65,95 @@ public class products extends AppCompatActivity {
                 Toast.makeText(products.this, "Failed to load product details", Toast.LENGTH_SHORT).show();
             }
         });
+
+        heart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                heart.setSelected(!heart.isSelected());
+                if(heart.isSelected()){
+                    addtofavorite(productId);
+                }
+                else{
+                    removeFromFavorite(productId);
+                }
+            }
+        });
+
+
     }
+
+    private void removeFromFavorite(String productId) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("favorites");
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DatabaseReference userFavoritesRef = databaseReference.child(userId);
+
+            userFavoritesRef.child(productId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot productSnapshot) {
+                    if (productSnapshot.exists()) {
+                        userFavoritesRef.child(productId).removeValue((databaseError, databaseReference) -> {
+                            if (databaseError == null) {
+                                userFavoritesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                                        if (!userSnapshot.hasChildren()) {
+                                            databaseReference.child(userId).removeValue();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Log.e("RemoveFavorites", "Database error: " + databaseError.getMessage());
+                                    }
+                                });
+                            } else {
+                                Log.e("RemoveFavorites", "Failed to remove product: " + databaseError.getMessage());
+                            }
+                        });
+                    } else {
+                        Log.e("RemoveFavorites", "Product ID does not exist under user's favorites");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("RemoveFavorites", "Database error: " + databaseError.getMessage());
+                }
+            });
+        } else {
+            // Handle the case where user is not logged in
+            Log.e("RemoveFavorites", "No user is logged in.");
+        }
+    }
+
+    private void addtofavorite(String productId) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("favorites");
+
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DatabaseReference userFavoritesRef = databaseReference.child(userId);
+
+            userFavoritesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    userFavoritesRef.child(productId).setValue(true);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG, "Database error: " + databaseError.getMessage());
+                }
+            });
+        } else {
+            // Handle the case where the user is not logged in
+            Log.e(TAG, "No user is logged in.");
+        }
+    }
+
 
     private void initializeViews() {
         productNameTextView = findViewById(R.id.name);
@@ -67,14 +162,38 @@ public class products extends AppCompatActivity {
         productImageView = findViewById(R.id.imageView30);
         statutImageView = findViewById(R.id.statut);
         countryNameTextView = findViewById(R.id.country);
-        heart = findViewById(R.id.heart);
+        
+    }
+    public void checkFavoriteStatus(String productId, View heart) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("favorites");
 
-        heart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                heart.setSelected(!heart.isSelected());
-            }
-        });
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DatabaseReference userFavoritesRef = databaseReference.child(userId).child(productId);
+
+            userFavoritesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        // Product ID exists in user's favorites
+                        heart.setSelected(true);
+                    } else {
+                        // Product ID does not exist in user's favorites
+                        heart.setSelected(false);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG, "Database error: " + databaseError.getMessage());
+                }
+            });
+        } else {
+            // Handle the case where user is not logged in
+            Log.e(TAG, "No user is logged in.");
+            heart.setSelected(false);
+        }
     }
 
     private void fetchCountryName(DatabaseReference rootRef, String countryCode) {
