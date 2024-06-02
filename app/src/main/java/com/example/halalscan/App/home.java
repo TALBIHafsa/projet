@@ -134,57 +134,62 @@ public class home extends AppCompatActivity {
     ActivityResultLauncher<ScanOptions> barLauncher = registerForActivityResult(new ScanContract(), result -> {
         if (result.getContents() != null) {
             String scannedCode = result.getContents();
-            Log.d("home", "Scanned Barcode: " + scannedCode); // Confirm barcode is captured
-            database.orderByChild("id").equalTo(scannedCode).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            product product = dataSnapshot.getValue(product.class);
-                            Intent intent = new Intent(home.this, products.class);
-                            intent.putExtra("productId", product.getId());
-                            intent.putExtra("productName", product.getName());
-                            intent.putExtra("productImage", product.getImage());
-                            startActivity(intent);
-                        }
-                    } else {
-                        AddSuggestionBottomSheetFragment bottomSheet = AddSuggestionBottomSheetFragment.newInstance(scannedCode);
-                        bottomSheet.show(getSupportFragmentManager(), "AddSuggestionBottomSheet");
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    Toast.makeText(home.this, "Failed to read from database", Toast.LENGTH_SHORT).show();
-                }
-            });
+            Log.d("home", "Scanned Barcode: " + scannedCode);
+            checkProductDatabase(scannedCode);
         }
     });
 
-//    private void showProductNotFoundDialog(String scannedBarcode) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(home.this);
-//        builder.setTitle("Product Not Found");
-//        builder.setMessage("The product with barcode " + scannedBarcode + " is not in our database. Would you like to add it?");
-//        builder.setPositiveButton("Add Product", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                // Redirect to Add Product Activity
-//                Intent intent = new Intent(home.this, AddProductActivity.class);
-//                intent.putExtra("scannedBarcode", scannedBarcode); // Ensure this is the correct variable holding the barcode
-//
-//                startActivity(intent);
-//            }
-//        });
-//        builder.setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
-//        AlertDialog dialog = builder.create();
-//        dialog.show();
+    private void checkProductDatabase(String barcode) {
+        DatabaseReference productRef = FirebaseDatabase.getInstance().getReference("products");
+        productRef.orderByChild("id").equalTo(barcode).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Product exists in products database
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        product product = dataSnapshot.getValue(product.class);
+                        Intent intent = new Intent(home.this, products.class);
+                        intent.putExtra("productId", product.getId());
+                        intent.putExtra("productName", product.getName());
+                        intent.putExtra("productImage", product.getImage());
+                        startActivity(intent);
+                    }
+                } else {
+                    // Check in addProduct database
+                    checkAddProductDatabase(barcode);
+                }
+            }
 
-//    }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(home.this, "Failed to read from database", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void checkAddProductDatabase(String barcode) {
+        DatabaseReference addProductRef = FirebaseDatabase.getInstance().getReference("newProducts");
+        addProductRef.orderByChild("id").equalTo(barcode).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Product exists in addProduct database
+                    AnalyzingFrame analyzingFragment = AnalyzingFrame.newInstance(barcode);
+                    analyzingFragment.show(getSupportFragmentManager(), "AnalyzingProductFragment");
+                } else {
+                    // Product does not exist in any database
+                    AddSuggestionBottomSheetFragment addSuggestionFragment = AddSuggestionBottomSheetFragment.newInstance(barcode);
+                    addSuggestionFragment.show(getSupportFragmentManager(), "AddSuggestionBottomSheetFragment");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(home.this, "Failed to read from database", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void goToFavourits(View v){
         Intent i = new Intent(this, favorits.class);
         startActivity(i);

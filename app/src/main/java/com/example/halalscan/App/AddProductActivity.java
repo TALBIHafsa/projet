@@ -186,12 +186,9 @@ public class AddProductActivity extends AppCompatActivity {
         Intent i = new Intent(this, home.class);
         startActivity(i);
     }
-<<<<<<< HEAD
-}
-=======
+
 
     public void goBack(View v) {
         finish();
     }
 }
->>>>>>> 132a2444383201111614dcffe82f9fcea3c90a05
