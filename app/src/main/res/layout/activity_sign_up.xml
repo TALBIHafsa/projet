@@ -117,23 +117,40 @@
         app:layout_constraintTop_toBottomOf="@+id/email"
         app:layout_constraintVertical_bias="0.02" />
 
-    <EditText
-        android:id="@+id/password"
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordC"
         android:layout_width="310dp"
+
         android:layout_height="55dp"
-        android:background="@drawable/bg"
-        android:ems="10"
-        android:hapticFeedbackEnabled="false"
-        android:hint="********"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:textSize="18dp"
+        android:hint=" "
+        android:textColorHint="#9F9EA0"
+        app:expandedHintEnabled="false"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#A5A4A6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:passwordToggleEnabled="true">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg"
+            android:ems="10"
+            android:hint="********"
+            android:hapticFeedbackEnabled="false"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:textSize="18dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView11"
@@ -146,26 +163,41 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.225"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password"
+        app:layout_constraintTop_toBottomOf="@+id/passwordC"
         app:layout_constraintVertical_bias="0.028" />
 
-    <EditText
-        android:id="@+id/confirmPassword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/confirmPasswordC"
         android:layout_width="310dp"
+
         android:layout_height="55dp"
-        android:background="@drawable/bg"
-        android:ems="10"
-        android:hapticFeedbackEnabled="false"
-        android:hint="********"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:textSize="18dp"
+        android:hint=" "
+        android:textColorHint="#9F9EA0"
+        app:expandedHintEnabled="false"
+        app:hintAnimationEnabled="true"
+        app:hintEnabled="true"
+        app:hintTextColor="#A5A4A6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:passwordToggleEnabled="true">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg"
+            android:ems="10"
+            android:hapticFeedbackEnabled="false"
+            android:hint="********"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:textSize="18dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/SignUp"
@@ -178,7 +210,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirmPassword"
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordC"
         app:layout_constraintVertical_bias="0.251" />
 
     <TextView
