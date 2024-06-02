@@ -35,8 +35,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productList"
-        android:layout_width="380dp"
-        android:layout_height="528dp"
+        android:layout_width="383dp"
+        android:layout_height="732dp"
         android:foregroundGravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -342,6 +342,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView14"
                 app:layout_constraintVertical_bias="1.0"
                 android:background="@drawable/bg_transparent"
+                android:padding="3dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp">
 
@@ -350,8 +351,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
                     >

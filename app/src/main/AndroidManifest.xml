@@ -32,7 +32,7 @@
             android:name=".App.AddProductActivity"
             android:exported="false" />
         <activity
-            android:name=".Opening.MainActivity"
+            android:name=".App.home"
             android:exported="false" />
         <activity
             android:name=".App.productList"
@@ -65,7 +65,7 @@
             android:name=".Opening.page2"
             android:exported="false" />
         <activity
-            android:name=".App.home"
+            android:name=".Opening.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
