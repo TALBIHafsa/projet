@@ -148,7 +148,8 @@ public class home extends AppCompatActivity {
                             startActivity(intent);
                         }
                     } else {
-                        showProductNotFoundDialog(scannedCode);
+                        AddSuggestionBottomSheetFragment bottomSheet = AddSuggestionBottomSheetFragment.newInstance(scannedCode);
+                        bottomSheet.show(getSupportFragmentManager(), "AddSuggestionBottomSheet");
                     }
                 }
 
@@ -160,29 +161,30 @@ public class home extends AppCompatActivity {
         }
     });
 
-    private void showProductNotFoundDialog(String scannedBarcode) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(home.this);
-        builder.setTitle("Product Not Found");
-        builder.setMessage("The product with barcode " + scannedBarcode + " is not in our database. Would you like to add it?");
-        builder.setPositiveButton("Add Product", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Redirect to Add Product Activity
-                Intent intent = new Intent(home.this, AddProductActivity.class);
-                intent.putExtra("scannedBarcode", scannedBarcode); // Ensure this is the correct variable holding the barcode
+//    private void showProductNotFoundDialog(String scannedBarcode) {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(home.this);
+//        builder.setTitle("Product Not Found");
+//        builder.setMessage("The product with barcode " + scannedBarcode + " is not in our database. Would you like to add it?");
+//        builder.setPositiveButton("Add Product", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                // Redirect to Add Product Activity
+//                Intent intent = new Intent(home.this, AddProductActivity.class);
+//                intent.putExtra("scannedBarcode", scannedBarcode); // Ensure this is the correct variable holding the barcode
+//
+//                startActivity(intent);
+//            }
+//        });
+//        builder.setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.dismiss();
+//            }
+//        });
+//        AlertDialog dialog = builder.create();
+//        dialog.show();
 
-                startActivity(intent);
-            }
-        });
-        builder.setNegativeButton("Go Back", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
+//    }
     public void goToFavourits(View v){
         Intent i = new Intent(this, favorits.class);
         startActivity(i);

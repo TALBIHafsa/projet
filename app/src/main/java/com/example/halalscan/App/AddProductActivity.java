@@ -170,7 +170,4 @@ public class AddProductActivity extends AppCompatActivity {
         Intent i = new Intent(this, home.class);
         startActivity(i);
     }
-    public void goBack(View v){
-        finish();
-    }
 }
