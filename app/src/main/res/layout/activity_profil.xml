@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/your_status_bar_color"
     tools:context=".App.ProfilActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,46 +17,41 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView11"
-            android:layout_width="35dp"
-            android:layout_height="31dp"
-            android:layout_marginBottom="5dp"
+            android:id="@+id/imageView32"
+            android:layout_width="55dp"
+            android:layout_height="58dp"
             android:onClick="goToHome"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.043"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.941"
-            app:srcCompat="@drawable/arrow__1_" />
+            app:srcCompat="@drawable/left_arrow" />
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="37dp"
-            android:layout_height="42dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@color/green"
+            android:layout_width="44dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/button_background"
             android:onClick="logout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_logout_24"
-            app:tint="@color/white" />
+            app:srcCompat="@drawable/baseline_logout_24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageView4"
-        android:layout_width="150dp"
-        android:layout_height="149dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="154dp"
+        android:layout_height="155dp"
+        android:layout_marginTop="96dp"
         android:background="#80C1C0B3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/circular"
         app:srcCompat="@drawable/baseline_person_24"
-        app:strokeColor="@color/design_default_color_background"
+        app:strokeColor="@color/your_status_bar_color"
+
         app:strokeWidth="5dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -82,13 +78,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/abeezee"
         android:text="@string/username"
-        android:textColor="@color/green"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintHorizontal_bias="0.441"
         app:layout_constraintStart_toStartOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/imageView4"
         app:layout_goneMarginTop="12dp" />
@@ -104,7 +100,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.491"
+        app:layout_constraintVertical_bias="0.388"
         app:layout_constraintVertical_chainStyle="packed">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -136,6 +132,7 @@
                 android:clickable="true"
                 android:contentDescription="@string/todo"
                 android:onClick="modifyUsername"
+                android:backgroundTint="@color/your_status_bar_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView13"
                 app:layout_constraintTop_toTopOf="parent"
@@ -148,6 +145,7 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="80dp"
+                android:fontFamily="@font/internormal"
                 android:text="@string/username"
                 app:layout_constraintEnd_toStartOf="@+id/floatingActionButton6"
                 app:layout_constraintHorizontal_bias="0.384"
@@ -186,6 +184,7 @@
                 android:clickable="true"
                 android:contentDescription="@string/todo"
                 android:onClick="modifyEmail"
+                android:backgroundTint="@color/your_status_bar_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView10"
                 app:layout_constraintTop_toTopOf="parent"
@@ -198,6 +197,7 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="80dp"
+                android:fontFamily="@font/internormal"
                 android:text="@string/email"
                 app:layout_constraintEnd_toStartOf="@+id/floatingActionButton3"
                 app:layout_constraintHorizontal_bias="0.333"
@@ -211,6 +211,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="30dp"
             tools:layout_height="55dp">
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView9"
                 android:layout_width="53dp"
@@ -233,6 +234,7 @@
                 android:background="@color/white"
                 android:clickable="true"
                 android:contentDescription="@string/todo"
+                android:backgroundTint="@color/your_status_bar_color"
                 android:onClick="modifyPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView9"
@@ -246,6 +248,7 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="80dp"
+                android:fontFamily="@font/internormal"
                 android:text="Password"
                 app:layout_constraintEnd_toStartOf="@+id/floatingActionButton2"
                 app:layout_constraintHorizontal_bias="0.356"

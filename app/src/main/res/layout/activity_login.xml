@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.183"
-        app:srcCompat="@drawable/logo_transp" />
+        app:srcCompat="@drawable/new_logo_transparent" />
 
     <TextView
         android:id="@+id/textView"
@@ -56,7 +56,7 @@
         android:layout_width="310dp"
         android:layout_height="55dp"
         android:layout_marginBottom="344dp"
-        android:background="@drawable/edittext_background"
+        android:background="@drawable/bg"
         android:ems="10"
         android:hapticFeedbackEnabled="false"
         android:hint="ex: jon.smith@email.com"
@@ -88,7 +88,7 @@
         android:id="@+id/Password"
         android:layout_width="310dp"
         android:layout_height="55dp"
-        android:background="@drawable/edittext_background"
+        android:background="@drawable/bg"
         android:ems="10"
         android:hapticFeedbackEnabled="false"
         android:hint="**********"

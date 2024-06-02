@@ -22,12 +22,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HalalScan"
         tools:targetApi="31" >
-        <activity
-            android:name=".App.addSuggestion"
-            android:exported="false" />
-        <activity
-            android:name=".addSuggestion"
-            android:exported="false" />
+
+
         <activity
             android:name=".App.NotificationActivity"
             android:exported="false" />
@@ -35,7 +31,7 @@
             android:name=".App.AddProductActivity"
             android:exported="false" />
         <activity
-            android:name=".App.ProfilActivity"
+            android:name=".Opening.MainActivity"
             android:exported="false" />
         <activity
             android:name=".App.productList"
@@ -68,7 +64,7 @@
             android:name=".Opening.page2"
             android:exported="false" />
         <activity
-            android:name=".Opening.MainActivity"
+            android:name=".App.ProfilActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
