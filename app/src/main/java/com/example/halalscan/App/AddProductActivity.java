@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -28,9 +29,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 
-
 public class AddProductActivity extends AppCompatActivity {
-
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private Uri photoURI;
@@ -41,7 +40,6 @@ public class AddProductActivity extends AppCompatActivity {
     private StorageReference storageRef;
     DatabaseReference database;
     private String scannedBarcode; // This will hold the barcode passed from home activity
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +62,34 @@ public class AddProductActivity extends AppCompatActivity {
         findViewById(R.id.addPicture).setOnClickListener(v -> takePicture("productImage"));
         findViewById(R.id.addIngredients).setOnClickListener(v -> takePicture("ingredientsImage"));
         showTakenImages();
+        fetchAndStoreToken();
+    }
+
+    private void fetchAndStoreToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        System.out.println("Fetching FCM registration token failed");
+                        return;
+                    }
+
+                    // Get new FCM registration token
+                    String token = task.getResult();
+
+                    // Store the token in the database
+                    storeTokenInDatabase(token);
+                });
+    }
+
+    private void storeTokenInDatabase(String token) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            return; // Exit if no user is logged in
+        }
+
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("newProducts").child(scannedBarcode);
+        databaseRef.child("fcmToken").setValue(token);
     }
 
     private void takePicture(String type) {
@@ -84,7 +110,6 @@ public class AddProductActivity extends AppCompatActivity {
         }
     }
 
-
     private void uploadImageToFirebase(Bitmap bitmap, String type) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -104,8 +129,6 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void updateDatabaseWithImageUrl(String imageUrl, String type) {
-
-
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
@@ -114,9 +137,7 @@ public class AddProductActivity extends AppCompatActivity {
 
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("newProducts").child(scannedBarcode);
         databaseRef.child("id").setValue(scannedBarcode);
-
-        databaseRef.child("userEmail").setValue(currentUser.getEmail()); // If you want to store the email
-
+        databaseRef.child("userEmail").setValue(currentUser.getEmail());
 
         if (type.equals("productImage")) {
             databaseRef.child("productImage").setValue(imageUrl);
@@ -125,49 +146,52 @@ public class AddProductActivity extends AppCompatActivity {
         }
     }
 
+    private void showTakenImages() {
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
+                );
 
+                if (dataSnapshot.hasChild("productImage")) {
+                    productcontainer.removeAllViews();
+                    String productImageUrl = dataSnapshot.child("productImage").getValue(String.class);
+                    ImageView productImageView = new ImageView(AddProductActivity.this);
+                    productImageView.setLayoutParams(layoutParams);
 
-        private void showTakenImages() {
-            database.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT
-                    );
-
-                    // Check if the dataSnapshot has the specific child "productImage"
-                    if (dataSnapshot.hasChild("productImage")) {
-                        productcontainer.removeAllViews();
-                        String productImageUrl = dataSnapshot.child("productImage").getValue(String.class);
-                        ImageView productImageView = new ImageView(AddProductActivity.this);
-                        productImageView.setLayoutParams(layoutParams);
-
-                        Picasso.get().load(productImageUrl).into(productImageView);
-                        productcontainer.addView(productImageView);
-                    }
-
-                    // Check if the dataSnapshot has the specific child "ingredientsImage"
-                    if (dataSnapshot.hasChild("ingredientsImage")) {
-                        ingredientscontainer.removeAllViews();
-                        String ingredientsImageUrl = dataSnapshot.child("ingredientsImage").getValue(String.class);
-                        ImageView ingredientsImageView = new ImageView(AddProductActivity.this);
-                        ingredientsImageView.setLayoutParams(layoutParams);
-
-                        Picasso.get().load(ingredientsImageUrl).into(ingredientsImageView);
-                        ingredientscontainer.addView(ingredientsImageView);
-                    }
+                    Picasso.get().load(productImageUrl).into(productImageView);
+                    productcontainer.addView(productImageView);
                 }
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(AddProductActivity.this, "Failed to load images: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                if (dataSnapshot.hasChild("ingredientsImage")) {
+                    ingredientscontainer.removeAllViews();
+                    String ingredientsImageUrl = dataSnapshot.child("ingredientsImage").getValue(String.class);
+                    ImageView ingredientsImageView = new ImageView(AddProductActivity.this);
+                    ingredientsImageView.setLayoutParams(layoutParams);
+
+                    Picasso.get().load(ingredientsImageUrl).into(ingredientsImageView);
+                    ingredientscontainer.addView(ingredientsImageView);
                 }
-            });
-        }
-    public void goToHome(View v){
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(AddProductActivity.this, "Failed to load images: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void goToHome(View v) {
         Intent i = new Intent(this, home.class);
         startActivity(i);
     }
+<<<<<<< HEAD
 }
+=======
+
+    public void goBack(View v) {
+        finish();
+    }
+}
+>>>>>>> 132a2444383201111614dcffe82f9fcea3c90a05

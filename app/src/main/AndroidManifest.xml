@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -28,13 +29,13 @@
             android:name=".addSuggestion"
             android:exported="false" />
         <activity
+            android:name=".App.NotificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".App.AddProductActivity"
             android:exported="false" />
         <activity
             android:name=".App.ProfilActivity"
-            android:exported="false" />
-        <activity
-            android:name=".App.scan"
             android:exported="false" />
         <activity
             android:name=".App.productList"
@@ -75,6 +76,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".App.MyFireBaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".App.CaptureAct"
             android:screenOrientation="portrait"

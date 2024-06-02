@@ -127,7 +127,7 @@ public class signUp extends AppCompatActivity {
                                         });
                             }
                         } else {
-                            Toast.makeText(signUp.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(signUp.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
