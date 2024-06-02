@@ -121,7 +121,7 @@ public class favorits extends AppCompatActivity implements OnHeartClickListener 
                                         String productId=productSnapshot.child("id").getValue(String.class);
 
                                         if (name != null && statut != null) {
-                                            if (imageUrl != null && !imageUrl.isEmpty() && 1==2) {
+                                            if (imageUrl != null && !imageUrl.isEmpty() ) {
                                                 FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
                                                     String downloadUrl = uri.toString();
                                                     DataClass product = new DataClass(productId,name, statut, downloadUrl, true);
