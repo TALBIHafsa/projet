@@ -70,7 +70,7 @@
                     app:layout_constraintVertical_bias="0.133"
                     app:srcCompat="@drawable/haribo" />
 
-                <ImageView
+                <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/statut"
                     android:layout_width="165dp"
                     android:layout_height="70dp"
@@ -79,20 +79,9 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView30"
                     app:layout_constraintTop_toTopOf="@+id/imageView17"
                     app:layout_constraintVertical_bias="0.272"
-                    app:srcCompat="@drawable/haram" />
+                    android:src="@drawable/haram" />
 
-                <!--                <ImageView-->
-                <!--                    android:id="@+id/qleyeb"-->
-                <!--                    android:layout_width="49dp"-->
-                <!--                    android:layout_height="49dp"-->
-                <!--                    android:padding="8dp"-->
-                <!--                    android:src="@drawable/heart"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="@+id/imageView17"-->
-                <!--                    app:layout_constraintEnd_toEndOf="@+id/imageView17"-->
-                <!--                    app:layout_constraintHorizontal_bias="0.257"-->
-                <!--                    app:layout_constraintStart_toEndOf="@+id/imageView30"-->
-                <!--                    app:layout_constraintTop_toBottomOf="@+id/statut"-->
-                <!--                    app:layout_constraintVertical_bias="0.318" />-->
+
 
                 <ImageView
                     android:id="@+id/heart"

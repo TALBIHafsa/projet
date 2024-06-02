@@ -18,6 +18,7 @@ firebaseStorage = "21.0.0"
 firebaseAuth = "23.0.0"
 firebaseFirestore = "25.0.0"
 firebaseMessaging = "24.0.0"
+androidGifDrawable = "1.2.28"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -37,6 +38,7 @@ firebase-storage = { group = "com.google.firebase", name = "firebase-storage", v
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
+android-gif-drawable = { group = "pl.droidsonroids.gif", name = "android-gif-drawable", version.ref = "androidGifDrawable" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
