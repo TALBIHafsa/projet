@@ -127,7 +127,7 @@ public class signUp extends AppCompatActivity {
                                         });
                             }
                         } else {
-                            Toast.makeText(signUp.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(signUp.this,"password muSt be at least 6 characters", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
