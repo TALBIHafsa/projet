@@ -25,11 +25,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView5"
         app:layout_constraintVertical_bias="0.171" />
+
     <ImageView
         android:id="@+id/imageView32"
         android:layout_width="55dp"
         android:layout_height="58dp"
-        android:onClick="goToPage1"
+        android:onClick="goToPage2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/left_arrow" />
