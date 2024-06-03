@@ -194,10 +194,6 @@ public class home extends AppCompatActivity {
         Intent i = new Intent(this, favorits.class);
         startActivity(i);
     }
-    public void goToNotifications(View v){
-        Intent i = new Intent(this, notification.class);
-        startActivity(i);
-    }
 
     public void goToSearch(View v){
         Intent i = new Intent(this, productList.class);
