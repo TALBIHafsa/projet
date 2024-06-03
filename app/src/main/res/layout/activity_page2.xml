@@ -44,16 +44,15 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:textColor="#FEF6F5"
-        android:background="@drawable/button_background2"
+        android:background="@drawable/button_background"
         android:id="@+id/button"
         android:layout_width="225dp"
         android:layout_height="61dp"
-        android:backgroundTint="#5F79E2"
         android:fontFamily="@font/internormal"
         android:onClick="goToPage3"
         android:text="Continue"
         android:textAllCaps="false"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -84,18 +83,13 @@
         app:layout_constraintVertical_bias="0.202"
         app:srcCompat="@drawable/page2" />
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#00000000"
-        android:fontFamily="@font/abeezee"
+    <ImageView
+        android:id="@+id/imageView32"
+        android:layout_width="55dp"
+        android:layout_height="58dp"
         android:onClick="goToPage1"
-        android:text="BACK"
-        android:textColor="#7384D0"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/left_arrow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/abeezee"
         android:text="Front"
-        android:textSize="20sp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.227"
@@ -45,7 +45,7 @@
         android:fontFamily="@font/abeezee"
         android:text="Ingredients"
 
-        android:textSize="20sp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.819"
@@ -55,8 +55,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/productcontainer"
-        android:layout_width="169dp"
-        android:layout_height="200dp"
+        android:layout_width="168.5dp"
+        android:layout_height="197dp"
         android:layout_marginStart="23dp"
         android:layout_marginTop="9dp"
         android:layout_marginBottom="260dp"
@@ -66,6 +66,8 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView
+            android:background="@drawable/bg_transparent"
+            android:padding="3dp"
             android:id="@+id/imageView28"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,7 +83,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ingredientscontainer"
         android:layout_width="169dp"
-        android:layout_height="200dp"
+        android:layout_height="197dp"
         android:layout_marginTop="9dp"
         android:layout_marginEnd="23dp"
         android:layout_marginBottom="260dp"
@@ -92,6 +94,8 @@
 
         <ImageView
             android:id="@+id/imageView29"
+            android:background="@drawable/bg_transparent"
+            android:padding="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -145,7 +149,7 @@
         android:layout_height="63dp"
         android:background="@drawable/button_background"
         android:backgroundTint="@color/green"
-        android:onClick="go"
+        android:onClick="goToHome"
         android:text="Save"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
@@ -158,8 +162,8 @@
 
     <ImageView
         android:id="@+id/imageView32"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="55dp"
+        android:layout_height="58dp"
         android:onClick="goBack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -170,7 +174,7 @@
         android:layout_width="232dp"
         android:layout_height="wrap_content"
         android:fontFamily="@font/internormal"
-        android:text="Note:  Once the analysis is complete, we will notify you via email with the results."
+        android:text="Note:  Once the analysis is complete, we will notify you with the results.\nThank you for your contribution!"
         android:textAlignment="center"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"

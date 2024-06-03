@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Bottom Half - Green -->
+    <item >
+        <shape>
+            <solid android:color="@color/your_status_bar_color" />
+            <corners android:topLeftRadius="100dp" android:topRightRadius="100dp"/>
+
+        </shape>
+    </item>
+    <item android:height="370dp">
+        <shape>
+            <solid android:color="@color/green" />
+            <corners android:topLeftRadius="28dp" android:topRightRadius="28dp"
+                android:bottomRightRadius="100dp" />
+            <size android:height="300dp" />
+        </shape>
+    </item>
+
+    <!-- Top Half - White -->
+
+
+
+</layer-list>

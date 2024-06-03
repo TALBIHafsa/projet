@@ -187,6 +187,7 @@ public class AddProductActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+
     public void goBack(View v) {
         finish();
     }

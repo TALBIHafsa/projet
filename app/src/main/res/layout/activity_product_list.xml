@@ -1,48 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".App.productList">
+    android:layout_gravity="center_vertical"
+    android:background="@color/your_status_bar_color"
+    android:gravity="center|fill_vertical"
+    android:orientation="vertical"
+    tools:context=".App.AnalyzingFrame">
 
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/toolbar"
-        android:layout_width="379dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:cardCornerRadius="50dp"
+    <SearchView
+        android:id="@+id/editTextSearch"
+        android:layout_width="380dp"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/searchview_background"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="clip_vertical"
+        android:iconifiedByDefault="false"
+        android:padding="5dp"
+        android:queryBackground="@android:color/transparent"
+        android:queryHint="Search Here"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        >
-
-
-
-
-            <SearchView
-                android:id="@+id/editTextSearch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="Search here"
-                android:layout_margin="10dp"
-                app:layout_constraintEnd_toEndOf="@+id/toolbar"
-                app:layout_constraintStart_toStartOf="@+id/toolbar"
-                app:layout_constraintTop_toTopOf="@+id/toolbar" />
-
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintVertical_bias="0.051" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        android:layout_width="383dp"
+        android:layout_height="732dp"
+        android:foregroundGravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintHorizontal_bias="0.516"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSearch"
+        app:layout_constraintVertical_bias="0.25" />
+</LinearLayout>
