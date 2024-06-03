@@ -38,9 +38,6 @@
             android:name=".App.productList"
             android:exported="false" />
         <activity
-            android:name=".App.notification"
-            android:exported="false" />
-        <activity
             android:name=".App.gifTest"
             android:exported="false" />
         <activity

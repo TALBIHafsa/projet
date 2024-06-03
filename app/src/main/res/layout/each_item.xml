@@ -12,36 +12,36 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardView2"
         android:layout_width="382dp"
-        android:layout_height="199dp"
+        android:layout_height="159dp"
         android:padding="8dp"
         android:background="@color/lightGreen">
 
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/listImage"
-            android:layout_width="129dp"
-            android:layout_height="171dp"
+            android:layout_width="128dp"
+            android:layout_height="136dp"
+            android:layout_marginStart="8dp"
             android:scaleType="centerCrop"
             android:src="@drawable/frontproduct"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.47" />
 
         <ImageView
             android:id="@+id/listHeart"
             android:layout_width="47dp"
             android:layout_height="43dp"
             android:layout_above="@+id/listStatut"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/listName"
             android:backgroundTint="@color/white"
             android:clickable="true"
             android:onClick="onHeartClick"
-            app:layout_constraintBottom_toTopOf="@+id/listStatut"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.485"
             app:layout_constraintStart_toEndOf="@+id/listName"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
@@ -50,37 +50,22 @@
 
         <TextView
             android:id="@+id/listName"
-            android:layout_width="140dp"
-            android:layout_height="124dp"
+            android:layout_width="132dp"
+            android:layout_height="136dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginEnd="84dp"
             android:layout_toEndOf="@+id/listImage"
+            android:gravity="center_vertical"
             android:text="Product1"
-            android:textColor="@color/grey"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/listStatut"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/listImage"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.333" />
-
-        <TextView
-            android:id="@+id/listStatut"
-            android:layout_width="157dp"
-            android:layout_height="27dp"
-            android:layout_below="@+id/listName"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="24dp"
-            android:layout_toEndOf="@+id/listImage"
-            android:text="This product is halal.."
             android:textColor="@color/grey"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
-            app:layout_constraintStart_toEndOf="@+id/listImage" />
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/listImage"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
-

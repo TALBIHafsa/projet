@@ -1,7 +1,9 @@
 package com.example.halalscan.App;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -40,6 +44,8 @@ public class home extends AppCompatActivity {
     private LinearLayout productsContainer;
 
     DatabaseReference database;
+    private static final int REQUEST_CODE_NOTIFICATION_PERMISSION = 123;
+
 
 
     @Override
@@ -61,6 +67,26 @@ public class home extends AppCompatActivity {
 
 
         showUserData();
+        checkAndRequestNotificationPermission();
+    }
+    private void checkAndRequestNotificationPermission() {
+        // Check if the app has notification permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // Request notification permission if not granted
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE_NOTIFICATION_PERMISSION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_NOTIFICATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Notification permission granted
+            } else {
+                // Notification permission denied
+            }
+        }
     }
     private void showUserData() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
