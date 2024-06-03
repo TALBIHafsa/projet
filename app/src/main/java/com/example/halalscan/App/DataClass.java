@@ -3,23 +3,20 @@ package com.example.halalscan.App;
 public class DataClass {
     private String dataTitle;
     private String dataId;
-    private String dataStatut;
     private int dataImage;
     private String dataImage2;
     private boolean isFavorite;
 
 
-    public DataClass(String dataId,String dataTitle, String dataStatut, int dataImage, boolean isFavorite) {
+    public DataClass(String dataId,String dataTitle, int dataImage, boolean isFavorite) {
         this.dataId=dataId;
         this.dataTitle = dataTitle;
-        this.dataStatut = dataStatut;
         this.dataImage = dataImage;
         this.isFavorite = isFavorite;
     }
-    public DataClass(String dataId,String dataTitle, String dataStatut, String dataImage, boolean isFavorite) {
+    public DataClass(String dataId,String dataTitle, String dataImage, boolean isFavorite) {
         this.dataId=dataId;
         this.dataTitle = dataTitle;
-        this.dataStatut = dataStatut;
         this.dataImage2= dataImage;
         this.isFavorite = isFavorite;
     }
@@ -27,11 +24,6 @@ public class DataClass {
     public String getDataTitle() {
         return dataTitle;
     }
-
-    public String getDataStatut() {
-        return dataStatut;
-    }
-
     public int getDataImage() {
         return dataImage;
     }

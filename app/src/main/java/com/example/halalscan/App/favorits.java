@@ -116,15 +116,14 @@ public class favorits extends AppCompatActivity implements OnHeartClickListener 
                                 public void onDataChange(@NonNull DataSnapshot productSnapshot) {
                                     if (productSnapshot.exists()) {
                                         String name = productSnapshot.child("name").getValue(String.class);
-                                        String statut = productSnapshot.child("statut").getValue(String.class);
                                         String imageUrl = productSnapshot.child("image").getValue(String.class);
                                         String productId=productSnapshot.child("id").getValue(String.class);
 
-                                        if (name != null && statut != null) {
+                                        if (name != null ) {
                                             if (imageUrl != null && !imageUrl.isEmpty() ) {
                                                 FirebaseStorage.getInstance().getReferenceFromUrl(imageUrl).getDownloadUrl().addOnSuccessListener(uri -> {
                                                     String downloadUrl = uri.toString();
-                                                    DataClass product = new DataClass(productId,name, statut, downloadUrl, true);
+                                                    DataClass product = new DataClass(productId,name, downloadUrl, true);
                                                     dataList.add(product);
                                                     adapter.notifyItemInserted(0);
                                                     adapter.notifyItemRangeChanged(0, dataList.size());
@@ -132,7 +131,7 @@ public class favorits extends AppCompatActivity implements OnHeartClickListener 
                                                     // Handle any errors
                                                 });
                                             } else {
-                                                DataClass product = new DataClass(productId,name, statut, R.drawable.product_icon, true);
+                                                DataClass product = new DataClass(productId,name, R.drawable.product_icon, true);
                                                 dataList.add(product);
                                                 adapter.notifyItemInserted(0);
                                                 adapter.notifyItemRangeChanged(0, dataList.size());
