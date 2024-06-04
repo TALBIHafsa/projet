@@ -66,8 +66,6 @@ public class ProfilActivity extends AppCompatActivity {
     TextView textViewPassword;
     FloatingActionButton SaveImageButton;
     private Uri imageUri;
-    private String myUri="";
-    private StorageTask uploadTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
