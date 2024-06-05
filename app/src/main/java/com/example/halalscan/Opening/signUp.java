@@ -98,39 +98,56 @@ public class signUp extends AppCompatActivity {
             return;
         }
 
-        mAuth.createUserWithEmailAndPassword(u_email, u_password)
-                .addOnCompleteListener(signUp.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            String uid = user.getUid();
-                            if (user != null) {
-                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(u_name)
-                                        .build();
+        // Check if the email already exists
+        usersRef.orderByChild("email").equalTo(u_email).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Email already exists
+                    Toast.makeText(signUp.this, "Email already exists", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Email does not exist, proceed with user creation
+                    mAuth.createUserWithEmailAndPassword(u_email, u_password)
+                            .addOnCompleteListener(signUp.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        String uid = user.getUid();
+                                        if (user != null) {
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(u_name)
+                                                    .build();
 
-                                user.updateProfile(profileUpdates)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    // Create user object and store in Firebase Realtime Database
-                                                    users user = new users(u_email, u_name, u_password);
-                                                    usersRef.child(uid).setValue(user);
-                                                    Toast.makeText(signUp.this, "You have signed up correctly", Toast.LENGTH_SHORT).show();
-                                                    startActivity(new Intent(signUp.this, login.class));
-                                                } else {
-                                                    Toast.makeText(signUp.this, "Failed to add username", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
-                                        });
-                            }
-                        } else {
-                            Toast.makeText(signUp.this,"password must be at least 6 characters", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                                            user.updateProfile(profileUpdates)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                // Create user object and store in Firebase Realtime Database
+                                                                users user = new users(u_email, u_name, u_password);
+                                                                usersRef.child(uid).setValue(user);
+                                                                Toast.makeText(signUp.this, "You have signed up correctly", Toast.LENGTH_SHORT).show();
+                                                                startActivity(new Intent(signUp.this, login.class));
+                                                            } else {
+                                                                Toast.makeText(signUp.this, "Failed to add username", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }
+                                                    });
+                                        }
+                                    } else {
+                                        Toast.makeText(signUp.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(signUp.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private boolean isValidEmail(CharSequence target) {
